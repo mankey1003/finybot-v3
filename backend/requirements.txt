@@ -1,0 +1,32 @@
+# Web framework
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+
+# Firebase & Google Auth
+firebase-admin==6.6.0
+google-auth==2.38.0
+google-auth-oauthlib==1.2.1
+google-api-python-client==2.161.0
+
+# PDF processing
+pikepdf==9.4.2
+pdfplumber==0.11.4
+
+# Vertex AI (Gemini)
+google-cloud-aiplatform==1.78.0
+google-genai>=1.51.0
+
+# Firestore
+google-cloud-firestore==2.20.0
+
+# Cloud Logging
+google-cloud-logging==3.11.4
+
+# Encryption (POC — replace with Cloud KMS before production, see CLAUDE.md)
+cryptography==44.0.0
+
+# Utilities
+itsdangerous==2.2.0
+python-dotenv==1.0.1
+pydantic==2.10.4

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip3:*)",
+      "Bash(gcloud auth application-default print-access-token:*)",
+      "Bash(python3 -m pip:*)",
+      "Bash(gcloud config get-value:*)",
+      "Bash(python3:*)",
+      "Bash(brew:*)",
+      "Bash(python3.12:*)",
+      "Bash(/Users/sajal/Documents/FinyBot/backend/.venv/bin/pip install:*)",
+      "Bash(/Users/sajal/Documents/FinyBot/backend/.venv/bin/python:*)",
+      "Bash(gcloud auth application-default login:*)"
+    ]
+  }
+}
