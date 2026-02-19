@@ -84,7 +84,7 @@ export function Insights() {
           <div className="bg-white rounded-xl border border-gray-200 px-5 py-4 mb-4">
             <p className="text-sm font-medium text-gray-700 mb-3">Select months to compare (up to 6)</p>
             <div className="flex flex-wrap gap-2">
-              {availableMonths.map((m, i) => (
+              {availableMonths.map((m) => (
                 <button
                   key={m}
                   onClick={() => toggleMonth(m)}
