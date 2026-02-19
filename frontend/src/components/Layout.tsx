@@ -26,8 +26,8 @@ export function Layout() {
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* ── Sidebar ─────────────────────────────────── */}
-      <aside className="w-56 shrink-0 flex flex-col bg-white border-r border-gray-200">
+      {/* ── Sidebar (hidden on mobile) ─────────────── */}
+      <aside className="hidden md:flex w-56 shrink-0 flex-col bg-white border-r border-gray-200">
         <div className="px-5 py-5 border-b border-gray-100">
           <span className="text-lg font-bold text-brand-600">FinyBot</span>
           <p className="text-xs text-gray-400 mt-0.5">Credit card tracker</p>
@@ -71,17 +71,27 @@ export function Layout() {
       {/* ── Main content ────────────────────────────── */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
-          <div /> {/* spacer — page title is rendered by each page */}
-          <RefreshButton
-            onRefresh={triggerSync}
-            isRunning={isRunning}
-          />
+        <header className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 bg-white border-b border-gray-200">
+          <span className="text-base font-bold text-brand-600 md:hidden">FinyBot</span>
+          <div className="hidden md:block" /> {/* spacer on desktop */}
+          <div className="flex items-center gap-2">
+            <RefreshButton
+              onRefresh={triggerSync}
+              isRunning={isRunning}
+            />
+            <button
+              onClick={handleSignOut}
+              className="md:hidden p-2 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Sign out"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </div>
         </header>
 
         {/* Sync status banner */}
         {syncState.status !== 'idle' && (
-          <div className="px-6 pt-4">
+          <div className="px-4 md:px-6 pt-3 md:pt-4">
             <SyncStatusBanner
               status={syncState.status}
               results={syncState.results}
@@ -91,11 +101,28 @@ export function Layout() {
           </div>
         )}
 
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto px-6 py-6">
+        {/* Page content — bottom padding on mobile for nav bar */}
+        <main className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-6 pb-20 md:pb-6">
           <Outlet context={{ triggerSync, syncState }} />
         </main>
       </div>
+
+      {/* ── Bottom nav (mobile only) ───────────────── */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 flex z-50">
+        {NAV.map(({ to, label, Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              `flex-1 flex flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors
+               ${isActive ? 'text-brand-600' : 'text-gray-400'}`
+            }
+          >
+            <Icon className="h-5 w-5" />
+            {label}
+          </NavLink>
+        ))}
+      </nav>
     </div>
   )
 }
