@@ -1,8 +1,7 @@
 import { format } from 'date-fns'
 import { AlertCircle, CreditCard, Inbox } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link, useOutletContext, useSearchParams } from 'react-router-dom'
-import { SyncStatusBanner } from '../components/SyncStatusBanner'
+import { Link, useOutletContext } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { api } from '../lib/api'
 
@@ -37,7 +36,6 @@ function fmt(val: number, currency: string) {
 export function Dashboard() {
   const { state } = useAuth()
   const { triggerSync, syncState } = useOutletContext<OutletCtx>()
-  const [searchParams] = useSearchParams()
   const [statements, setStatements] = useState<Statement[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

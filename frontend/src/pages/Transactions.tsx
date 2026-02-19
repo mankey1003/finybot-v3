@@ -30,7 +30,7 @@ export function Transactions() {
   const billingMonth  = searchParams.get('billing_month') ?? ''
   const cardProvider  = searchParams.get('card_provider') ?? ''
 
-  const { transactions, loading, error, hasMore, sentinelRef, refresh } =
+  const { transactions, loading, error, hasMore, sentinelRef } =
     useInfiniteTransactions({
       billing_month: billingMonth || undefined,
       card_provider: cardProvider || undefined,

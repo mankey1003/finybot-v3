@@ -27,6 +27,7 @@ __pycache__/
 dist/
 build/
 frontend/.firebase/
+.firebase/
 
 # Logs
 *.log
