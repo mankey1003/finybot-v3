@@ -36,7 +36,9 @@ export function AppRouter() {
         element={
           state.status === 'ready'
             ? <Navigate to="/dashboard" replace />
-            : <Login />
+            : state.status === 'authenticated_no_gmail'
+              ? <Navigate to="/connect-gmail" replace />
+              : <Login />
         }
       />
       <Route path="/connect-gmail" element={<ConnectGmail />} />

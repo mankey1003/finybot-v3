@@ -1,4 +1,4 @@
-import { User, onAuthStateChanged, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth'
+import { User, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { useCallback, useEffect, useState } from 'react'
 import { api } from '../lib/api'
 import { auth, googleProvider } from '../lib/firebase'
@@ -49,15 +49,8 @@ export function useAuth() {
     return unsub
   }, [checkGmailStatus])
 
-  // Handle redirect result on page load (after returning from Google sign-in)
-  useEffect(() => {
-    getRedirectResult(auth).catch(() => {
-      // Redirect result errors are non-fatal — onAuthStateChanged handles state
-    })
-  }, [])
-
   const signIn = useCallback(async () => {
-    await signInWithRedirect(auth, googleProvider)
+    await signInWithPopup(auth, googleProvider)
   }, [])
 
   const signOutUser = useCallback(async () => {
