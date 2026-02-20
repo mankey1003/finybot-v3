@@ -7,6 +7,7 @@ load_dotenv()
 GOOGLE_CLOUD_PROJECT: str = os.environ["GOOGLE_CLOUD_PROJECT"]
 VERTEX_AI_LOCATION: str = os.getenv("VERTEX_AI_LOCATION", "global")
 GEMINI_MODEL: str = "gemini-3-flash-preview"
+GEMINI_API_KEY: str | None = os.getenv("GEMINI_API_KEY")
 
 FERNET_KEY: bytes = os.environ["FERNET_KEY"].encode()
 fernet = Fernet(FERNET_KEY)

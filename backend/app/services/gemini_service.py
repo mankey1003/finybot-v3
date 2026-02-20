@@ -5,16 +5,22 @@ from typing import Optional
 from google import genai
 from google.genai import types
 
-from app.config import GEMINI_MODEL, GOOGLE_CLOUD_PROJECT, VERTEX_AI_LOCATION
+from app.config import GEMINI_API_KEY, GEMINI_MODEL, GOOGLE_CLOUD_PROJECT, VERTEX_AI_LOCATION
 from app.models.statement import GeminiStatementOutput
 
 logger = logging.getLogger(__name__)
 
-_client = genai.Client(
-    vertexai=True,
-    project=GOOGLE_CLOUD_PROJECT,
-    location=VERTEX_AI_LOCATION,
-)
+# Gemini 3 preview models require API key (Express) access rather than standard Vertex AI ADC.
+# If GEMINI_API_KEY is set, use it; otherwise fall back to Vertex AI ADC (for GA models).
+if GEMINI_API_KEY:
+    # Vertex AI Express: API key + vertexai=True routes to the correct endpoint
+    _client = genai.Client(vertexai=True, api_key=GEMINI_API_KEY)
+else:
+    _client = genai.Client(
+        vertexai=True,
+        project=GOOGLE_CLOUD_PROJECT,
+        location=VERTEX_AI_LOCATION,
+    )
 
 _EXTRACTION_PROMPT = """You are a financial data extraction assistant.
 Extract all data from this credit card statement PDF.
