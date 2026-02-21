@@ -1,4 +1,4 @@
-import { CreditCard, LayoutDashboard, LogOut, Sparkles, List } from 'lucide-react'
+import { CreditCard, LayoutDashboard, LogOut, MessageSquare, Sparkles, List } from 'lucide-react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useSyncJob } from '../hooks/useSyncJob'
@@ -8,6 +8,7 @@ import { SyncStatusBanner } from './SyncStatusBanner'
 const NAV = [
   { to: '/dashboard',    label: 'Dashboard',     Icon: LayoutDashboard },
   { to: '/transactions', label: 'Transactions',   Icon: List },
+  { to: '/chat',         label: 'Chat',           Icon: MessageSquare },
   { to: '/insights',     label: 'Insights',       Icon: Sparkles },
   { to: '/cards',        label: 'Cards',          Icon: CreditCard },
 ]

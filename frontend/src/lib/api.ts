@@ -43,6 +43,27 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
   return res.json()
 }
 
+/** Authenticated POST that returns the raw Response for SSE streaming. */
+export async function apiStream(path: string, body: unknown, signal?: AbortSignal): Promise<Response> {
+  const token = await getToken()
+  const res = await fetch(`${BASE}${path}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+    signal,
+  })
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({ detail: res.statusText }))
+    throw new ApiError(res.status, data.detail ?? 'Request failed')
+  }
+
+  return res
+}
+
 /** Log a frontend error to the backend (best-effort, never throws). */
 export function logFrontendError(message: string, stack?: string): void {
   const payload = {
