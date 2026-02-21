@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import CORS_ORIGINS
-from app.routers import auth, cards, insights, log_error, statements, sync, transactions
+from app.routers import auth, cards, chat, insights, log_error, statements, sync, transactions
 
 # ── Logging setup ─────────────────────────────────────────────────────────────
 # Always configure a stdout handler so logs appear in the local terminal.
@@ -63,6 +63,7 @@ app.include_router(sync.router,         prefix="/api/sync",         tags=["sync"
 app.include_router(transactions.router, prefix="/api/transactions",  tags=["transactions"])
 app.include_router(statements.router,   prefix="/api/statements",   tags=["statements"])
 app.include_router(insights.router,     prefix="/api/insights",     tags=["insights"])
+app.include_router(chat.router,        prefix="/api/chat",         tags=["chat"])
 app.include_router(log_error.router,    prefix="/api/log-error",    tags=["logging"])
 
 # ── Global exception handler ───────────────────────────────────────────────────
