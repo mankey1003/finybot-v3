@@ -6,6 +6,7 @@ import { ConnectGmail } from './pages/ConnectGmail'
 import { Dashboard } from './pages/Dashboard'
 import { Insights } from './pages/Insights'
 import { Login } from './pages/Login'
+import { Chat } from './pages/Chat'
 import { Transactions } from './pages/Transactions'
 
 /** Redirect to the right place based on auth state. */
@@ -51,6 +52,7 @@ export function AppRouter() {
       >
         <Route path="/dashboard"    element={<Dashboard />} />
         <Route path="/transactions" element={<Transactions />} />
+        <Route path="/chat"         element={<Chat />} />
         <Route path="/insights"     element={<Insights />} />
         <Route path="/cards"        element={<Cards />} />
       </Route>

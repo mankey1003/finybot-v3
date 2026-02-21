@@ -25,6 +25,12 @@ def _statements(uid: str):
 def _transactions(uid: str):
     return _users(uid).collection("transactions")
 
+def _chats(uid: str):
+    return _users(uid).collection("chats")
+
+def _messages(uid: str, chat_id: str):
+    return _chats(uid).document(chat_id).collection("messages")
+
 def _jobs():
     return _db.collection("jobs")
 
@@ -250,3 +256,52 @@ def update_job(job_id: str, data: dict) -> None:
 
 def get_job(job_id: str) -> Optional[dict]:
     return _doc_to_dict(_jobs().document(job_id).get())
+
+
+# ── Chats ──────────────────────────────────────────────────────────────────────
+
+def create_chat(uid: str, chat_id: str, title: str) -> dict:
+    now = datetime.now(timezone.utc)
+    data = {"title": title, "createdAt": now, "updatedAt": now}
+    _chats(uid).document(chat_id).set(data)
+    return {"id": chat_id, **data}
+
+
+def get_chats(uid: str) -> list[dict]:
+    docs = _chats(uid).order_by("updatedAt", direction=firestore.Query.DESCENDING).get()
+    return [_doc_to_dict(d) for d in docs]
+
+
+def get_chat(uid: str, chat_id: str) -> Optional[dict]:
+    return _doc_to_dict(_chats(uid).document(chat_id).get())
+
+
+def delete_chat(uid: str, chat_id: str) -> None:
+    # Delete all messages in subcollection first
+    msgs = _messages(uid, chat_id).get()
+    for msg in msgs:
+        msg.reference.delete()
+    _chats(uid).document(chat_id).delete()
+
+
+def update_chat_title(uid: str, chat_id: str, title: str) -> None:
+    _chats(uid).document(chat_id).set(
+        {"title": title, "updatedAt": datetime.now(timezone.utc)}, merge=True
+    )
+
+
+def touch_chat(uid: str, chat_id: str) -> None:
+    _chats(uid).document(chat_id).set(
+        {"updatedAt": datetime.now(timezone.utc)}, merge=True
+    )
+
+
+def add_message(uid: str, chat_id: str, message_dict: dict) -> str:
+    ref = _messages(uid, chat_id).document()
+    ref.set({**message_dict, "createdAt": datetime.now(timezone.utc)})
+    return ref.id
+
+
+def get_messages(uid: str, chat_id: str) -> list[dict]:
+    docs = _messages(uid, chat_id).order_by("createdAt").get()
+    return [_doc_to_dict(d) for d in docs]
